@@ -266,14 +266,13 @@ function startApp() {
     }, 10 * 1000);
 
   }
-  debugger;
   getObs().IPC.ConnectOrHost("slobs");
   // Initialize various OBS services
-  getObs().API.SetWorkingDirectory(
+  getObs().SetWorkingDirectory(
     path.join(app.getAppPath().replace('app.asar', 'app.asar.unpacked') + 
-              '/node_modules/obs-studio-node'));
+              '/node_modules/obs-studio-node/distribute'));
 
-  getObs().API.OBS_API_initAPI(app.getPath('userData'));
+  getObs().OBS_API_initAPI(app.getPath('userData'));
 }
 
 // We use a special cache directory for running tests
