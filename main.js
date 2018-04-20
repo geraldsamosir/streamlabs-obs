@@ -270,7 +270,7 @@ function startApp() {
   // Initialize various OBS services
   getObs().SetWorkingDirectory(
     path.join(app.getAppPath().replace('app.asar', 'app.asar.unpacked') + 
-              '/node_modules/obs-studio-node/distribute'));
+              '/node_modules/obs-studio-node'));
 
   getObs().OBS_API_initAPI(app.getPath('userData'));
 }
