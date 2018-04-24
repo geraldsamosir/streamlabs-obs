@@ -168,7 +168,8 @@ export class SceneItem extends SceneItemNode implements ISceneItemApi {
     }
 
     this.UPDATE({ sceneItemId: this.sceneItemId, ...changed });
-    this.scenesService.itemUpdated.next(this.sceneItemState);
+
+    this.scenesService.itemUpdated.next(this.getModel());
   }
 
   remove() {
@@ -303,7 +304,7 @@ export class SceneItem extends SceneItemNode implements ISceneItemApi {
       .findIndex(sceneItemModel => sceneItemModel.id === this.id);
   }
 
-  protected getState() {
+  protected get state() {
     return this.sceneItemState;
   }
 
@@ -335,6 +336,11 @@ export class SceneItem extends SceneItemNode implements ISceneItemApi {
       position: { x: rect.x, y: rect.y },
       scale: { x: rect.scaleX, y: rect.scaleY }
     });
+  }
+
+
+  getSelection() {
+    return this.getScene().getSelection(this.id);
   }
 
 
