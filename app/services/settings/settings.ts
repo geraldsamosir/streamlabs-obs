@@ -192,7 +192,7 @@ export class SettingsService extends StatefulService<ISettingsState>
   }
 
   private getAudioSettingsFormData(): ISettingsSubCategory[] {
-    const audioDevices = this.audioService.getDevices();
+    /*const audioDevices = this.audioService.getDevices();
     const sourcesInChannels = this.sourcesService
       .getSources()
       .filter(source => source.channel !== void 0);
@@ -252,6 +252,14 @@ export class SettingsService extends StatefulService<ISettingsState>
         )
       });
     }
+
+    return [
+      {
+        nameSubCategory: 'Untitled',
+        parameters
+      }
+    ];*/
+    const parameters: TFormData = [];
 
     return [
       {
