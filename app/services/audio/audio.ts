@@ -183,7 +183,7 @@ export class AudioService extends StatefulService<IAudioSourcesState> implements
 
 
   private createAudioSource(source: Source) {
-    this.sourceData[source.sourceId] = {};
+    /*this.sourceData[source.sourceId] = {};
 
     const obsVolmeter = obs.VolmeterFactory.create(obs.EFaderType.IEC);
     obsVolmeter.attach(source.getObsInput());
@@ -194,7 +194,7 @@ export class AudioService extends StatefulService<IAudioSourcesState> implements
     this.sourceData[source.sourceId].fader = obsFader;
 
     this.initVolmeterStream(source.sourceId);
-    this.ADD_AUDIO_SOURCE(this.fetchAudioSource(source.sourceId));
+    this.ADD_AUDIO_SOURCE(this.fetchAudioSource(source.sourceId));*/
   }
 
   private initVolmeterStream(sourceId: string) {
