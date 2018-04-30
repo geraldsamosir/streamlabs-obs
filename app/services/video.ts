@@ -42,36 +42,36 @@ export class Display {
   sourceId: string;
 
   constructor(public name: string, options: IDisplayOptions = {}) {
-    // this.windowId = Utils.isChildWindow() ? 'child' : 'main';
+    this.windowId = Utils.isChildWindow() ? 'child' : 'main';
 
-    // this.sourceId = options.sourceId;
+    this.sourceId = options.sourceId;
 
-    // if (this.sourceId) {
-    //   nodeObs.OBS_content_createSourcePreviewDisplay(
-    //     remote.getCurrentWindow().getNativeWindowHandle(),
-    //     this.sourceId,
-    //     name
-    //   );
-    // } else {
-    //   nodeObs.OBS_content_createDisplay(
-    //     remote.getCurrentWindow().getNativeWindowHandle(),
-    //     name
-    //   );
-    //   nodeObs.OBS_content_setPaddingColor(name, 11, 22, 28);
-    //   this.selectionSubscription = this.selectionService.updated.subscribe(() => {
-    //     this.switchGridlines(this.selectionService.getSize() <= 1);
-    //   });
-    // }
+    if (this.sourceId) {
+      nodeObs.OBS_content_createSourcePreviewDisplay(
+        remote.getCurrentWindow().getNativeWindowHandle(),
+        this.sourceId,
+        name
+      );
+    } else {
+      nodeObs.OBS_content_createDisplay(
+        remote.getCurrentWindow().getNativeWindowHandle(),
+        name
+      );
+      nodeObs.OBS_content_setPaddingColor(name, 11, 22, 28);
+      this.selectionSubscription = this.selectionService.updated.subscribe(() => {
+        this.switchGridlines(this.selectionService.getSize() <= 1);
+      });
+    }
 
-    // if (options.paddingSize != null) {
-    //   nodeObs.OBS_content_setPaddingSize(name, options.paddingSize);
-    // }
+    if (options.paddingSize != null) {
+      nodeObs.OBS_content_setPaddingSize(name, options.paddingSize);
+    }
 
-    // this.outputRegionCallbacks = [];
+    this.outputRegionCallbacks = [];
 
-    // this.boundDestroy = this.destroy.bind(this);
+    this.boundDestroy = this.destroy.bind(this);
 
-    // remote.getCurrentWindow().on('close', this.boundDestroy);
+    remote.getCurrentWindow().on('close', this.boundDestroy);
   }
 
   boundDestroy: any;
@@ -81,86 +81,80 @@ export class Display {
    * @param element the html element to host the display
    */
   trackElement(element: HTMLElement) {
-    // if (this.trackingInterval) clearInterval(this.trackingInterval);
+    if (this.trackingInterval) clearInterval(this.trackingInterval);
 
-    // const trackingFun = () => {
-    //   const rect = this.getScaledRectangle(element.getBoundingClientRect());
+    const trackingFun = () => {
+      const rect = this.getScaledRectangle(element.getBoundingClientRect());
 
-    //   if ((rect.x !== this.currentPosition.x) ||
-    //     (rect.y !== this.currentPosition.y) ||
-    //     (rect.width !== this.currentPosition.width) ||
-    //     (rect.height !== this.currentPosition.height)) {
+      if ((rect.x !== this.currentPosition.x) ||
+        (rect.y !== this.currentPosition.y) ||
+        (rect.width !== this.currentPosition.width) ||
+        (rect.height !== this.currentPosition.height)) {
 
-    //     this.move(rect.x, rect.y);
-    //     this.resize(rect.width, rect.height);
-    //   }
-    // };
+        this.move(rect.x, rect.y);
+        this.resize(rect.width, rect.height);
+      }
+    };
 
-    // trackingFun();
-    // this.trackingInterval = window.setInterval(trackingFun, DISPLAY_ELEMENT_POLLING_INTERVAL);
+    trackingFun();
+    this.trackingInterval = window.setInterval(trackingFun, DISPLAY_ELEMENT_POLLING_INTERVAL);
   }
 
   getScaledRectangle(rect: ClientRect): IRectangle {
-    // const factor: number = this.windowsService.state[this.windowId].scaleFactor;
+    const factor: number = this.windowsService.state[this.windowId].scaleFactor;
 
-    // return {
-    //   x: rect.left * factor,
-    //   y: rect.top * factor,
-    //   width: rect.width * factor,
-    //   height: rect.height * factor
-    // };
     return {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0
+      x: rect.left * factor,
+      y: rect.top * factor,
+      width: rect.width * factor,
+      height: rect.height * factor
     };
   }
 
   move(x: number, y: number) {
-    // this.currentPosition.x = x;
-    // this.currentPosition.y = y;
-    // nodeObs.OBS_content_moveDisplay(this.name, x, y);
+    this.currentPosition.x = x;
+    this.currentPosition.y = y;
+    nodeObs.OBS_content_moveDisplay(this.name, x, y);
   }
 
   resize(width: number, height: number) {
-    // this.currentPosition.width = width;
-    // this.currentPosition.height = height;
-    // nodeObs.OBS_content_resizeDisplay(this.name, width, height);
-    // if (!this.sourceId) this.refreshOutputRegion();
+    this.currentPosition.width = width;
+    this.currentPosition.height = height;
+    nodeObs.OBS_content_resizeDisplay(this.name, width, height);
+    if (!this.sourceId) this.refreshOutputRegion();
   }
 
   destroy() {
-    // remote.getCurrentWindow().removeListener('close', this.boundDestroy);
-    // nodeObs.OBS_content_destroyDisplay(this.name);
-    // if (this.trackingInterval) clearInterval(this.trackingInterval);
-    // if (this.selectionSubscription) this.selectionSubscription.unsubscribe();
+    remote.getCurrentWindow().removeListener('close', this.boundDestroy);
+    nodeObs.OBS_content_destroyDisplay(this.name);
+    if (this.trackingInterval) clearInterval(this.trackingInterval);
+    if (this.selectionSubscription) this.selectionSubscription.unsubscribe();
   }
 
   onOutputResize(cb: (region: IRectangle) => void) {
-    // this.outputRegionCallbacks.push(cb);
+    this.outputRegionCallbacks.push(cb);
   }
 
   refreshOutputRegion() {
-    // const position = nodeObs.OBS_content_getDisplayPreviewOffset(this.name);
-    // const size = nodeObs.OBS_content_getDisplayPreviewSize(this.name);
+    const position = nodeObs.OBS_content_getDisplayPreviewOffset(this.name);
+    const size = nodeObs.OBS_content_getDisplayPreviewSize(this.name);
 
-    // this.outputRegion = {
-    //   ...position,
-    //   ...size
-    // };
+    this.outputRegion = {
+      ...position,
+      ...size
+    };
 
-    // this.outputRegionCallbacks.forEach(cb => {
-    //   cb(this.outputRegion);
-    // });
+    this.outputRegionCallbacks.forEach(cb => {
+      cb(this.outputRegion);
+    });
   }
 
   setShoulddrawUI(drawUI: boolean) {
-    // nodeObs.OBS_content_setShouldDrawUI(this.name, drawUI);
+    nodeObs.OBS_content_setShouldDrawUI(this.name, drawUI);
   }
 
   switchGridlines(enabled: boolean) {
-    // nodeObs.OBS_content_setDrawGuideLines(this.name, enabled);
+    nodeObs.OBS_content_setDrawGuideLines(this.name, enabled);
   }
 }
 

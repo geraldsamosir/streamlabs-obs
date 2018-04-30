@@ -18,15 +18,15 @@ export default class Display extends Vue {
   };
 
   mounted() {
-    // const displayId = this.videoService.getRandomDisplayId();
-    // this.obsDisplay = new ObsDisplay(displayId, { paddingSize: this.paddingSize });
-    // this.obsDisplay.onOutputResize(outputRegion => this.$emit('outputResize', outputRegion));
-    // this.obsDisplay.trackElement(this.$refs.display);
-    // this.obsDisplay.setShoulddrawUI(this.drawUI);
+    const displayId = this.videoService.getRandomDisplayId();
+    this.obsDisplay = new ObsDisplay(displayId, { paddingSize: this.paddingSize });
+    this.obsDisplay.onOutputResize(outputRegion => this.$emit('outputResize', outputRegion));
+    this.obsDisplay.trackElement(this.$refs.display);
+    this.obsDisplay.setShoulddrawUI(this.drawUI);
   }
 
   beforeDestroy() {
-    // this.obsDisplay.destroy();
+    this.obsDisplay.destroy();
   }
 
 }
