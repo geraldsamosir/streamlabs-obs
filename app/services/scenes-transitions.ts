@@ -101,7 +101,7 @@ export class ScenesTransitionsService extends StatefulService<ISceneTransitionsS
       const newTransition = obs.TransitionFactory.create(type, 'Global Transition');
       obs.Global.setOutputSource(0, newTransition);
 
-      if (oldTransition && oldTransition.getActiveSource()) {
+      if (oldTransition) {
         newTransition.set(oldTransition.getActiveSource());
         oldTransition.release();
       }
