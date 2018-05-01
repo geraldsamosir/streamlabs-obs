@@ -193,8 +193,8 @@ export class VideoService extends Service {
     return new ScalableRectangle({
       x: 0,
       y: 0,
-      width: 2560,
-      height: 1440
+      width: this.baseWidth,
+      height: this.baseHeight
     });
   }
 
@@ -207,11 +207,9 @@ export class VideoService extends Service {
   }
 
   get baseResolution() {
-    // const [widthStr, heightStr] = this.settingsService.state.Video.Base.split('x');
-    // const width = parseInt(widthStr, 10);
-    // const height = parseInt(heightStr, 10);
-    const width = 2560;
-    const height = 1440;
+    const [widthStr, heightStr] = this.settingsService.state.Video.Base.split('x');
+    const width = parseInt(widthStr, 10);
+    const height = parseInt(heightStr, 10);
 
 
     return {
