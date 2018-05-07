@@ -101,13 +101,13 @@ export class SourcesNode extends Node<ISchema, {}> {
             propertiesManagerSettings: source.getPropertiesManagerSettings()
           };
 
-          /*if (audioSource) data = {
+          if (audioSource) data = {
             ...data,
             forceMono: audioSource.forceMono,
             syncOffset: AudioService.msToTimeSpec(audioSource.syncOffset),
             audioMixers: audioSource.audioMixers,
             monitoringType: audioSource.monitoringType,
-          };*/
+          };
 
           resolve(data);
         });
@@ -223,7 +223,7 @@ export class SourcesNode extends Node<ISchema, {}> {
         }
       );
 
-      /*if (source.audioMixers) {
+      if (source.audioMixers) {
         this.audioService.getSource(sourceInfo.id).setMul((sourceInfo.volume != null) ? sourceInfo.volume : 1);
         this.audioService.getSource(sourceInfo.id).setSettings({
           forceMono: sourceInfo.forceMono,
@@ -231,7 +231,7 @@ export class SourcesNode extends Node<ISchema, {}> {
           audioMixers: sourceInfo.audioMixers,
           monitoringType: sourceInfo.monitoringType
         });
-      }*/
+      }
 
       this.checkTextSourceValidity(sourceInfo);
 
